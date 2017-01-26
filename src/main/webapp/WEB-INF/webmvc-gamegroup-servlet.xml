@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<mvc:default-servlet-handler />
+	<mvc:annotation-driven />
+	<mvc:annotation-driven
+		ignore-default-model-on-redirect="true" />
+	<context:component-scan base-package="net.tompy.gamegroup.spring" />
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<beans:bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<beans:property name="sessionFactory" ref="sessionFactory" />
+	</beans:bean>
+
+	<!-- <beans:import resource="organization.xml" /> -->
+	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<beans:property name="url"
+			value="jdbc:mysql://localhost:3306/gamegroup" />
+		<beans:property name="username" value="process" />
+		<beans:property name="password" value="para747" />
+	</beans:bean>
+
+	<beans:bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource" />
+		<beans:property name="annotatedClasses">
+			<beans:list>
+				<beans:value>net.tompy.gamegroup.spring.model.Player</beans:value>
+				<beans:value>net.tompy.gamegroup.spring.model.Game</beans:value>
+				<beans:value>net.tompy.gamegroup.spring.model.Event</beans:value>
+				<beans:value>net.tompy.gamegroup.spring.model.Venue</beans:value>
+				<beans:value>net.tompy.gamegroup.spring.model.EventPlayer
+				</beans:value>
+			</beans:list>
+		</beans:property>
+		<beans:property name="hibernateProperties">
+			<beans:props>
+				<beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect
+				</beans:prop>
+				<beans:prop key="hibernate.show_sql">false</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="eventDAO" class="net.tompy.gamegroup.spring.dao.EventDAOImpl">
+	</beans:bean>
+
+	<beans:bean id="eventPlayerDAO"
+		class="net.tompy.gamegroup.spring.dao.EventPlayerDAOImpl">
+	</beans:bean>
+
+	<beans:bean id="eventService"
+		class="net.tompy.gamegroup.spring.service.EventServiceImpl">
+	</beans:bean>
+
+	<beans:bean id="gameDAO" class="net.tompy.gamegroup.spring.dao.GameDAOImpl">
+	</beans:bean>
+
+	<beans:bean id="gameService"
+		class="net.tompy.gamegroup.spring.service.GameServiceImpl">
+	</beans:bean>
+
+	<beans:bean id="venueDAO" class="net.tompy.gamegroup.spring.dao.VenueDAOImpl">
+	</beans:bean>
+
+	<beans:bean id="venueService"
+		class="net.tompy.gamegroup.spring.service.VenueServiceImpl">
+	</beans:bean>
+
+	<beans:bean id="playerDAO"
+		class="net.tompy.gamegroup.spring.dao.PlayerDAOImpl">
+	</beans:bean>
+
+	<beans:bean id="playerService"
+		class="net.tompy.gamegroup.spring.service.PlayerServiceImpl">
+	</beans:bean>
+
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+
+</beans:beans>

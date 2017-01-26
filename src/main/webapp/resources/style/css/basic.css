@@ -1,0 +1,35 @@
+table {
+	border: 1px solid black;
+	border-collapse: collapse;
+	width: 100%
+}
+
+tr {
+	border: 1px solid black;
+}
+
+td {
+	font-size: 12pt;
+	border: 0px;
+	padding: 4px;
+}
+
+.Ywin {
+	color: red;
+}
+
+.Nwin {
+	color: black;
+}
+
+body {
+	background-color: linen;
+}
+
+table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
+    content: " \25B4\25BE" 
+}
+
+.delete_button {
+	display: none;
+}
